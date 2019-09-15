@@ -1,8 +1,11 @@
-﻿namespace CalculadoraServer
+﻿using System;
+using System.Threading;
+
+namespace CalculadoraServer
 {
     public class CalculadoraServices
     {
-        private enum Operacao : short
+        public enum Operacao : short
         {
             Somar = 1,
             Subtrair = 2,
@@ -10,23 +13,25 @@
             Dividir = 4
         }
 
-        public void ProcessarResultado(InformacoesParaSeremProcessadasDto dto)
+        public InformacoesParaSeremProcessadasDto ProcessarResultado(InformacoesParaSeremProcessadasDto dto)
         {
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+
             switch (dto.Operacao)
             {
-                case (short)Operacao.Multiplicar:
+                case Operacao.Multiplicar:
                     dto.Resultado = dto.Numero1 * dto.Numero2;
                     break;
 
-                case (short)Operacao.Dividir:
+                case Operacao.Dividir:
                     dto.Resultado = dto.Numero1 / dto.Numero2;
                     break;
 
-                case (short)Operacao.Somar:
+                case Operacao.Somar:
                     dto.Resultado = dto.Numero1 + dto.Numero2;
                     break;
 
-                case (short)Operacao.Subtrair:
+                case Operacao.Subtrair:
                     dto.Resultado = dto.Numero1 - dto.Numero2;
                     break;
 
@@ -34,6 +39,8 @@
                     dto.Resultado = 0;
                     break;
             }
+
+            return dto;
         }
     }
 }

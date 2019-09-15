@@ -28,7 +28,7 @@ namespace Trabalho
             set
             {
                 _display = value;
-                OnPropertyChanged("Display");
+                OnPropertyChanged(nameof(Display));
             }
         }
 
@@ -44,6 +44,12 @@ namespace Trabalho
         private void AtualizarDisplay(string valor) => Display += valor;
 
         private void BtnDividir_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraServices.Operacao.Dividir);
+
+        private void BtnLimpar_Click(object sender, RoutedEventArgs e)
+        {
+            LimparNumeros();
+            LimparDisplay();
+        }
 
         private void BtnMultiplicar_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraServices.Operacao.Multiplicar);
 
@@ -71,6 +77,7 @@ namespace Trabalho
         {
             DefinirNumero();
             ProcessarResultado();
+            LimparNumeros();
         }
 
         private void BtnSomar_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraServices.Operacao.Somar);
@@ -81,7 +88,7 @@ namespace Trabalho
 
         private void DefinirNumero()
         {
-            var display = Display.Replace(",", ".");
+            var display = Display?.Replace(",", ".");
             if (string.IsNullOrEmpty(display)) return;
 
             decimal.TryParse(Display, out var numeroAtual);
@@ -107,9 +114,16 @@ namespace Trabalho
 
         private void LimparDisplay() => Display = string.Empty;
 
+        private void LimparNumeros()
+        {
+            Numero1 = null;
+            Numero2 = null;
+        }
+
         private void ProcessarResultado()
         {
-            if (Numero1 is null || Numero2 is null) return;
+            if (Numero1 is null || Numero1 is 0 ||
+                Numero2 is null || Numero2 is 0) return;
 
             var numero1 = Numero1.Value;
             var numero2 = Numero2.Value;
@@ -118,8 +132,9 @@ namespace Trabalho
 
             void CarregarResultadoAsync()
             {
+                Display = "Carregando...";
                 Resultado = _calculadoraServices.ProcessarResultado(numero1, numero2, TipoOperacao.Value);
-                Display = Resultado.ToString();
+                Display = $"{Resultado}".Replace(",00", "");
             }
         }
     }
