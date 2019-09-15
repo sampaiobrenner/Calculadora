@@ -11,7 +11,11 @@ namespace CalculadoraServer
     {
         private static readonly ManualResetEvent AllDone = new ManualResetEvent(false);
 
-        public static void Main() => ComecarAEscutar();
+        public static void Main()
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            ComecarAEscutar();
+        }
 
         private static void AcceptCallback(IAsyncResult ar)
         {
@@ -64,8 +68,8 @@ namespace CalculadoraServer
 
         private static void Enviar(Socket handler, string data)
         {
-            // Convert the string data to byte data using ASCII encoding.
-            var byteData = Encoding.ASCII.GetBytes(data);
+            // Convert the string data to byte data using UTF8 encoding.
+            var byteData = Encoding.UTF8.GetBytes(data);
 
             // Comece a enviar os dados para o dispositivo remoto.
             handler.BeginSend(byteData, 0, byteData.Length, 0, EnviarRetorno, handler);
@@ -100,7 +104,7 @@ namespace CalculadoraServer
             if (bytesRead <= 0) return;
 
             // Pode haver mais dados, portanto, armazene os dados recebidos até o momento.
-            state.Sb.Append(Encoding.ASCII.GetString(state.Buffer, 0, bytesRead));
+            state.Sb.Append(Encoding.UTF8.GetString(state.Buffer, 0, bytesRead));
 
             // Verifique a tag de fim de arquivo. Se não estiver lá, leia mais dados
             var content = state.Sb.ToString();
@@ -119,14 +123,14 @@ namespace CalculadoraServer
                 var json = JsonConvert.SerializeObject(informacoesParaSeremProcessadasDto);
 
                 // Resposta a ser enviada ao cliente
-                Console.WriteLine("-----------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------");
                 Console.WriteLine($"Numero 1:           {informacoesParaSeremProcessadasDto.Numero1}                   ");
                 Console.WriteLine($"Numero 2:           {informacoesParaSeremProcessadasDto.Numero2}                   ");
                 Console.WriteLine($"Tipo de operação:   {informacoesParaSeremProcessadasDto.Operacao.ToString()}       ");
                 Console.WriteLine($"Resultado:          {informacoesParaSeremProcessadasDto.Resultado}                 ");
-                Console.WriteLine("-----------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------");
                 Console.WriteLine($"JSON: {json}");
-                Console.WriteLine("-----------------------------------------------------");
+                Console.WriteLine("------------------------------------------------------------------------------------");
 
                 // Efetua o retorno das informações ao cliente
                 Enviar(handler, json);

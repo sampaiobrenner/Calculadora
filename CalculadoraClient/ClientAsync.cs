@@ -110,7 +110,7 @@ public class ClientAsync
             if (bytesRead > 0)
             {
                 // There might be more data, so store the data received so far.
-                state.sb.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
+                state.sb.Append(Encoding.UTF8.GetString(state.buffer, 0, bytesRead));
 
                 // Get the rest of the data.
                 client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, ReceiveCallback, state);
@@ -132,8 +132,8 @@ public class ClientAsync
 
     private void Send(Socket client, string data)
     {
-        // Convert the string data to byte data using ASCII encoding.
-        var byteData = Encoding.ASCII.GetBytes(data);
+        // Convert the string data to byte data using UTF8 encoding.
+        var byteData = Encoding.UTF8.GetBytes(data);
 
         // Begin sending the data to the remote device.
         client.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, client);
