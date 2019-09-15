@@ -110,14 +110,14 @@ namespace CalculadoraServer
                     var objRetorno = JsonConvert.SerializeObject(obj);
 
                     // Resposta a ser enviada ao cliente
-                    Console.WriteLine("-----------------------------------------");
-                    Console.WriteLine($"Numero 1:           {obj.Numero1}       ");
-                    Console.WriteLine($"Numero 2:           {obj.Numero2}       ");
-                    Console.WriteLine($"Tipo de operação:   {obj.Operacao}      ");
-                    Console.WriteLine($"Resultado:          {obj.Resultado}     ");
-                    Console.WriteLine("-----------------------------------------");
+                    Console.WriteLine("-----------------------------------------------------");
+                    Console.WriteLine($"Numero 1:           {obj.Numero1}                   ");
+                    Console.WriteLine($"Numero 2:           {obj.Numero2}                   ");
+                    Console.WriteLine($"Tipo de operação:   {obj.Operacao.ToString()}       ");
+                    Console.WriteLine($"Resultado:          {obj.Resultado}                 ");
+                    Console.WriteLine("-----------------------------------------------------");
                     Console.WriteLine($"JSON: {objRetorno}");
-                    Console.WriteLine("-----------------------------------------");
+                    Console.WriteLine("-----------------------------------------------------");
 
                     // Efetua o retorno das informações ao cliente
                     Enviar(handler, objRetorno);

@@ -18,7 +18,7 @@ namespace Trabalho2
             {
                 Numero1 = numero1,
                 Numero2 = numero2,
-                Operacao = (short)operacao
+                Operacao = operacao
             };
 
             var json = JsonConvert.SerializeObject(dtoDeEnvio);
