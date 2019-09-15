@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace CalculadoraServer
 {
-    public static class CalculadoraServer
+    public class CalculadoraServer
     {
         // Thread signal.
         private static readonly ManualResetEvent AllDone = new ManualResetEvent(false);
@@ -68,14 +68,13 @@ namespace CalculadoraServer
             Console.Read();
         }
 
-        private static void Enviar(Socket handler, String data)
+        private static void Enviar(Socket handler, string data)
         {
             // Convert the string data to byte data using ASCII encoding.
             var byteData = Encoding.ASCII.GetBytes(data);
 
             // Begin sending the data to the remote device.
-            handler.BeginSend(byteData, 0, byteData.Length, 0,
-                SendCallback, handler);
+            handler.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, handler);
         }
 
         private static void ReadCallback(IAsyncResult ar)
@@ -101,15 +100,26 @@ namespace CalculadoraServer
                 {
                     var retorno = content.Replace("<EOF>", string.Empty);
 
+                    // Desserializa os valores enviados pelo cliente para que possam ser processados
                     var obj = JsonConvert.DeserializeObject<InformacoesParaSeremProcessadasDto>(retorno);
+
+                    // Efetua o processamento dos valores
                     new CalculadoraServices().ProcessarResultado(obj);
+
+                    // Serializa os valores em JSON para envio ao cliente
                     var objRetorno = JsonConvert.SerializeObject(obj);
 
-                    // All the data has been read from the
-                    // client. Display it on the console.
-                    Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
-                        content.Length, objRetorno);
-                    // Echo the data back to the client.
+                    // Resposta a ser enviada ao cliente
+                    Console.WriteLine("-----------------------------------------");
+                    Console.WriteLine($"Numero 1:           {obj.Numero1}       ");
+                    Console.WriteLine($"Numero 2:           {obj.Numero2}       ");
+                    Console.WriteLine($"Tipo de operação:   {obj.Operacao}      ");
+                    Console.WriteLine($"Resultado:          {obj.Resultado}     ");
+                    Console.WriteLine("-----------------------------------------");
+                    Console.WriteLine($"JSON: {objRetorno}");
+                    Console.WriteLine("-----------------------------------------");
+
+                    // Efetua o retorno das informações ao cliente
                     Enviar(handler, objRetorno);
                 }
                 else

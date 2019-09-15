@@ -25,7 +25,6 @@
                 </Style>
             </Grid.Resources>
 
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
@@ -42,29 +41,31 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <TextBox x:Name="txbDisplay" Grid.Row="1" Grid.ColumnSpan="5" FontFamily="Open Sans" FontSize="40" IsReadOnly="True" Text="{Binding Resultado, IsAsync=True}">
-                
+            <TextBox Grid.Row="1" Grid.ColumnSpan="5" Text="{Binding Display, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.IsReadOnly>true</TextBox.IsReadOnly>
+                <TextBox.FontFamily>Open Sans</TextBox.FontFamily>
+                <TextBox.FontSize>40</TextBox.FontSize>
             </TextBox>
 
-            <Button x:Name="btnNumero1" Grid.Row="2" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero1_Click">1</Button>
-            <Button x:Name="btnNumero2" Grid.Row="2" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero2_Click">2</Button>
-            <Button x:Name="btnNumero3" Grid.Row="2" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnNumero3_Click">3</Button>
-            <Button x:Name="btnMultiplicar" Grid.Row="2" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnMultiplicar_Click">X</Button>
+            <Button Grid.Row="2" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero1_Click">1</Button>
+            <Button Grid.Row="2" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero2_Click">2</Button>
+            <Button Grid.Row="2" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnNumero3_Click">3</Button>
+            <Button Grid.Row="2" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnMultiplicar_Click">X</Button>
 
-            <Button x:Name="btnNumero4" Grid.Row="3" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero4_Click">4</Button>
-            <Button x:Name="btnNumero5" Grid.Row="3" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero5_Click">5</Button>
-            <Button x:Name="btnNumero6" Grid.Row="3" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnNumero6_Click">6</Button>
-            <Button x:Name="btnDividir" Grid.Row="3" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnDividir_Click">÷</Button>
+            <Button Grid.Row="3" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero4_Click">4</Button>
+            <Button Grid.Row="3" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero5_Click">5</Button>
+            <Button Grid.Row="3" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnNumero6_Click">6</Button>
+            <Button Grid.Row="3" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnDividir_Click">÷</Button>
 
-            <Button x:Name="btnNumero7" Grid.Row="4" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero7_Click">7</Button>
-            <Button x:Name="btnNumero8" Grid.Row="4" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero8_Click">8</Button>
-            <Button x:Name="btnNumero9" Grid.Row="4" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnNumero9_Click">9</Button>
-            <Button x:Name="btnSomar" Grid.Row="4" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnSomar_Click">+</Button>
+            <Button Grid.Row="4" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero7_Click">7</Button>
+            <Button Grid.Row="4" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero8_Click">8</Button>
+            <Button Grid.Row="4" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnNumero9_Click">9</Button>
+            <Button Grid.Row="4" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnSomar_Click">+</Button>
 
-            <Button x:Name="btnResultado" Grid.Row="5" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnResultado_Click">=</Button>
-            <Button x:Name="btnNumero0" Grid.Row="5" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero0_Click">0</Button>
-            <Button x:Name="btnVirgula" Grid.Row="5" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnVirgula_Click">,</Button>
-            <Button x:Name="btnSubtrair" Grid.Row="5" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnSubtrair_Click">-</Button>
+            <Button Grid.Row="5" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnResultado_Click">=</Button>
+            <Button Grid.Row="5" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero0_Click">0</Button>
+            <Button Grid.Row="5" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnVirgula_Click">,</Button>
+            <Button Grid.Row="5" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnSubtrair_Click">-</Button>
         </Grid>
     </Grid>
 </Window>
