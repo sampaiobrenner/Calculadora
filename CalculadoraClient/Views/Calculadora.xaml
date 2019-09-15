@@ -1,0 +1,83 @@
+﻿<Window x:Class="Trabalho2.Views.Calculadora"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Calculadora" Height="600" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+
+        <Grid.Resources>
+            <Style TargetType="{x:Type Grid}">
+                <Setter Property="Margin" Value="10 10"/>
+            </Style>
+        </Grid.Resources>
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="Margin" Value="5 5 5 5"/>
+                    <Setter Property="Padding" Value="5 5 20 5"/>
+                    <Setter Property="TextAlignment" Value="Right"/>
+
+                </Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Margin" Value="5 5 5 5"/>
+                </Style>
+            </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="1" Grid.ColumnSpan="5" Text="{Binding Display, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.IsReadOnly>true</TextBox.IsReadOnly>
+                <TextBox.FontFamily>Open Sans</TextBox.FontFamily>
+                <TextBox.FontSize>40</TextBox.FontSize>
+            </TextBox>
+
+            <Button Grid.Row="2" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero1_Click">_1</Button>
+            <Button Grid.Row="2" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero2_Click">_2</Button>
+            <Button Grid.Row="2" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnNumero3_Click">_3</Button>
+            <Button Grid.Row="2" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnMultiplicar_Click">_X</Button>
+
+            <Button Grid.Row="3" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero4_Click">_4</Button>
+            <Button Grid.Row="3" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero5_Click">_5</Button>
+            <Button Grid.Row="3" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnNumero6_Click">_6</Button>
+            <Button Grid.Row="3" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnDividir_Click">_÷</Button>
+
+            <Button Grid.Row="4" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero7_Click">_7</Button>
+            <Button Grid.Row="4" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero8_Click">_8</Button>
+            <Button Grid.Row="4" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnNumero9_Click">_9</Button>
+            <Button Grid.Row="4" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnSomar_Click">_+</Button>
+
+            <Button Grid.Row="5" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnResultado_Click" IsEnabled="{Binding ConectadoAoServidor}">_=</Button>
+            <Button Grid.Row="5" Grid.Column="2" FontSize="16" FontFamily="Open Sans" Click="BtnNumero0_Click">_0</Button>
+            <Button Grid.Row="5" Grid.Column="3" FontSize="16" FontFamily="Open Sans" Click="BtnVirgula_Click">_,</Button>
+            <Button Grid.Row="5" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnSubtrair_Click">_-</Button>
+
+            <StackPanel Grid.Row="6" Grid.ColumnSpan="4" VerticalAlignment="Bottom">
+                <StackPanel Orientation="Horizontal" Margin="8 8">
+                    <Image Source="{Binding DisplayedImagePath, UpdateSourceTrigger=PropertyChanged}" Height="12" Width="12"></Image>
+                    <Label Content="{Binding StatusConexao, UpdateSourceTrigger=PropertyChanged}"></Label>
+                </StackPanel>
+            </StackPanel>
+        
+            <Button Grid.Row="6" Grid.Column="4" FontSize="16" FontFamily="Open Sans" Click="BtnLimpar_Click">Limpar</Button>
+
+        </Grid>
+    </Grid>
+</Window>
