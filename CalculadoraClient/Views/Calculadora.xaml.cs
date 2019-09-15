@@ -12,10 +12,8 @@ namespace Trabalho2.Views
     public sealed partial class Calculadora : INotifyPropertyChanged
     {
         private readonly CalculadoraServices _calculadoraServices;
-
         private bool _conectadoAoServidor;
         private string _display;
-
         private string _displayedImagePath;
         private string _statusConexao;
 
@@ -168,8 +166,7 @@ namespace Trabalho2.Views
             var numero1 = Numero1.Value;
             var numero2 = Numero2.Value;
 
-            var task = new Task(CarregarResultadoAsync);
-            task.Start();
+            new Task(CarregarResultadoAsync).Start();
 
             void CarregarResultadoAsync()
             {
@@ -181,18 +178,17 @@ namespace Trabalho2.Views
 
         private void TestarConexaoComServidor()
         {
-            var task = new Task(VerificarConexao);
-            task.Start();
+            new Task(TestarConexaoComServidorAsync).Start();
 
-            void VerificarConexao()
+            void TestarConexaoComServidorAsync()
             {
                 while (true)
                 {
                     ConectadoAoServidor = _calculadoraServices.TestarConexaoComServidor();
 
-                    StatusConexao = ConectadoAoServidor ?
-                        "Conectado ao servidor."
-                        : "Sem conexão com o servidor.";
+                    StatusConexao = ConectadoAoServidor
+                        ? Properties.Resources.ConectadoAoServidor
+                        : Properties.Resources.SemConexaoComOServidor;
 
                     DisplayedImagePath = ConectadoAoServidor
                         ? Directory.GetCurrentDirectory() + "\\Resources\\conectado.ico"

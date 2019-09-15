@@ -81,12 +81,30 @@ namespace Trabalho2.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conectado ao servidor..
+        /// </summary>
+        internal static string ConectadoAoServidor {
+            get {
+                return ResourceManager.GetString("ConectadoAoServidor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon desconectado {
             get {
                 object obj = ResourceManager.GetObject("desconectado", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sem conexão com o servidor..
+        /// </summary>
+        internal static string SemConexaoComOServidor {
+            get {
+                return ResourceManager.GetString("SemConexaoComOServidor", resourceCulture);
             }
         }
     }

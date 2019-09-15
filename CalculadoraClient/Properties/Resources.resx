@@ -124,7 +124,13 @@
   <data name="conectado" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\conectado.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ConectadoAoServidor" xml:space="preserve">
+    <value>Conectado ao servidor.</value>
+  </data>
   <data name="desconectado" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\desconectado.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SemConexaoComOServidor" xml:space="preserve">
+    <value>Sem conexão com o servidor.</value>
   </data>
 </root>
