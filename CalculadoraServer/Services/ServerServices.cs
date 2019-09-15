@@ -1,13 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using Calculadora;
+using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace CalculadoraServer
+namespace CalculadoraServer.Services
 {
-    public static class ServerAsync
+    public static class ServerServices
     {
         private static readonly ManualResetEvent AllDone = new ManualResetEvent(false);
 
@@ -53,7 +54,6 @@ namespace CalculadoraServer
                     AllDone.Reset();
 
                     // Inicie um soquete assíncrono para ouvir as conexões.
-                    Console.WriteLine("À espera de uma conexão...");
                     listener.BeginAccept(AcceptCallback, listener);
 
                     // Aguarde até que seja feita uma conexão antes de continuar.
@@ -123,14 +123,16 @@ namespace CalculadoraServer
                 var json = JsonConvert.SerializeObject(informacoesParaSeremProcessadasDto);
 
                 // Resposta a ser enviada ao cliente
-                Console.WriteLine("------------------------------------------------------------------------------------");
-                Console.WriteLine($"Numero 1:           {informacoesParaSeremProcessadasDto.Numero1}                   ");
-                Console.WriteLine($"Numero 2:           {informacoesParaSeremProcessadasDto.Numero2}                   ");
-                Console.WriteLine($"Tipo de operação:   {informacoesParaSeremProcessadasDto.Operacao.ToString()}       ");
-                Console.WriteLine($"Resultado:          {informacoesParaSeremProcessadasDto.Resultado}                 ");
-                Console.WriteLine("------------------------------------------------------------------------------------");
-                Console.WriteLine($"JSON: {json}");
-                Console.WriteLine("------------------------------------------------------------------------------------");
+                Console.WriteLine();
+                Console.WriteLine(" Resposta enviada ao cliente:                                                        ");
+                Console.WriteLine(" ------------------------------------------------------------------------------------");
+                Console.WriteLine($" Numero 1:           {informacoesParaSeremProcessadasDto.Numero1}                   ");
+                Console.WriteLine($" Numero 2:           {informacoesParaSeremProcessadasDto.Numero2}                   ");
+                Console.WriteLine($" Tipo de operação:   {informacoesParaSeremProcessadasDto.Operacao.ToString()}       ");
+                Console.WriteLine($" Resultado:          {informacoesParaSeremProcessadasDto.Resultado}                 ");
+                Console.WriteLine(" ------------------------------------------------------------------------------------");
+                Console.WriteLine($" JSON: {json}");
+                Console.WriteLine(" ------------------------------------------------------------------------------------");
 
                 // Efetua o retorno das informações ao cliente
                 Enviar(handler, json);

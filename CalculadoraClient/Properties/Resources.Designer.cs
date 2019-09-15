@@ -69,5 +69,25 @@ namespace Trabalho2.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon conectado {
+            get {
+                object obj = ResourceManager.GetObject("conectado", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon desconectado {
+            get {
+                object obj = ResourceManager.GetObject("desconectado", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

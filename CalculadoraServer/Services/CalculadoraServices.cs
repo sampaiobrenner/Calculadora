@@ -1,37 +1,30 @@
-﻿using System;
+﻿using Calculadora;
+using System;
 using System.Threading;
 
-namespace CalculadoraServer
+namespace CalculadoraServer.Services
 {
     public class CalculadoraServices
     {
-        public enum Operacao : short
-        {
-            Somar = 1,
-            Subtrair = 2,
-            Multiplicar = 3,
-            Dividir = 4
-        }
-
         public InformacoesParaSeremProcessadasDto ProcessarResultado(InformacoesParaSeremProcessadasDto dto)
         {
             Thread.Sleep(TimeSpan.FromSeconds(2));
 
             switch (dto.Operacao)
             {
-                case Operacao.Multiplicar:
+                case CalculadoraUtils.Operacao.Multiplicar:
                     dto.Resultado = dto.Numero1 * dto.Numero2;
                     break;
 
-                case Operacao.Dividir:
+                case CalculadoraUtils.Operacao.Dividir:
                     dto.Resultado = dto.Numero1 / dto.Numero2;
                     break;
 
-                case Operacao.Somar:
+                case CalculadoraUtils.Operacao.Somar:
                     dto.Resultado = dto.Numero1 + dto.Numero2;
                     break;
 
-                case Operacao.Subtrair:
+                case CalculadoraUtils.Operacao.Subtrair:
                     dto.Resultado = dto.Numero1 - dto.Numero2;
                     break;
 

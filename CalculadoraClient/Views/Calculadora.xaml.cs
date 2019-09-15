@@ -1,26 +1,43 @@
-﻿using System.ComponentModel;
+﻿using Calculadora;
+using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using Trabalho2;
-using Trabalho2.Annotations;
+using Trabalho2.Properties;
+using Trabalho2.Services;
 
-namespace Trabalho
+namespace Trabalho2.Views
 {
-    public partial class MainWindow : INotifyPropertyChanged
+    public sealed partial class Calculadora : INotifyPropertyChanged
     {
         private readonly CalculadoraServices _calculadoraServices;
 
+        private bool _conectadoAoServidor;
         private string _display;
 
-        public MainWindow()
+        private string _displayedImagePath;
+        private string _statusConexao;
+
+        public Calculadora()
         {
             InitializeComponent();
             DataContext = this;
             _calculadoraServices = new CalculadoraServices();
+            TestarConexaoComServidor();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool ConectadoAoServidor
+        {
+            get => _conectadoAoServidor;
+            set
+            {
+                _conectadoAoServidor = value;
+                OnPropertyChanged(nameof(ConectadoAoServidor));
+            }
+        }
 
         public string Display
         {
@@ -32,18 +49,37 @@ namespace Trabalho
             }
         }
 
-        private decimal? Numero1 { get; set; }
-        private decimal? Numero2 { get; set; }
-        private decimal Resultado { get; set; }
-        private CalculadoraServices.Operacao? TipoOperacao { get; set; }
+        public string DisplayedImagePath
+        {
+            get => _displayedImagePath;
+            set
+            {
+                _displayedImagePath = value;
+                OnPropertyChanged(nameof(DisplayedImagePath));
+            }
+        }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public string StatusConexao
+        {
+            get => _statusConexao;
+            set
+            {
+                _statusConexao = value;
+                OnPropertyChanged(nameof(StatusConexao));
+            }
+        }
+
+        private decimal? Numero1 { get; set; }
+
+        private decimal? Numero2 { get; set; }
+
+        private decimal Resultado { get; set; }
+
+        private CalculadoraUtils.Operacao TipoOperacao { get; set; }
 
         private void AtualizarDisplay(string valor) => Display += valor;
 
-        private void BtnDividir_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraServices.Operacao.Dividir);
+        private void BtnDividir_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraUtils.Operacao.Dividir);
 
         private void BtnLimpar_Click(object sender, RoutedEventArgs e)
         {
@@ -51,7 +87,7 @@ namespace Trabalho
             LimparDisplay();
         }
 
-        private void BtnMultiplicar_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraServices.Operacao.Multiplicar);
+        private void BtnMultiplicar_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraUtils.Operacao.Multiplicar);
 
         private void BtnNumero0_Click(object sender, RoutedEventArgs e) => AtualizarDisplay("0");
 
@@ -80,9 +116,9 @@ namespace Trabalho
             LimparNumeros();
         }
 
-        private void BtnSomar_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraServices.Operacao.Somar);
+        private void BtnSomar_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraUtils.Operacao.Somar);
 
-        private void BtnSubtrair_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraServices.Operacao.Subtrair);
+        private void BtnSubtrair_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraUtils.Operacao.Subtrair);
 
         private void BtnVirgula_Click(object sender, RoutedEventArgs e) => AtualizarDisplay(",");
 
@@ -105,7 +141,7 @@ namespace Trabalho
                 Numero2 = numeroAtual;
         }
 
-        private void DefinirOperacao(CalculadoraServices.Operacao operacao)
+        private void DefinirOperacao(CalculadoraUtils.Operacao operacao)
         {
             DefinirNumero();
             TipoOperacao = operacao;
@@ -120,6 +156,10 @@ namespace Trabalho
             Numero2 = null;
         }
 
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
         private void ProcessarResultado()
         {
             if (Numero1 is null || Numero1 is 0 ||
@@ -128,13 +168,36 @@ namespace Trabalho
             var numero1 = Numero1.Value;
             var numero2 = Numero2.Value;
 
-            if (TipoOperacao.HasValue) Task.Factory.StartNew(CarregarResultadoAsync);
+            var task = new Task(CarregarResultadoAsync);
+            task.Start();
 
             void CarregarResultadoAsync()
             {
                 Display = "Carregando...";
-                Resultado = _calculadoraServices.ProcessarResultado(numero1, numero2, TipoOperacao.Value);
+                Resultado = _calculadoraServices.ProcessarResultado(numero1, numero2, TipoOperacao);
                 Display = $"{Resultado}".Replace(",00", "");
+            }
+        }
+
+        private void TestarConexaoComServidor()
+        {
+            var task = new Task(VerificarConexao);
+            task.Start();
+
+            void VerificarConexao()
+            {
+                while (true)
+                {
+                    ConectadoAoServidor = _calculadoraServices.TestarConexaoComServidor();
+
+                    StatusConexao = ConectadoAoServidor ?
+                        "Conectado ao servidor."
+                        : "Sem conexão com o servidor.";
+
+                    DisplayedImagePath = ConectadoAoServidor
+                        ? Directory.GetCurrentDirectory() + "\\Resources\\conectado.ico"
+                        : Directory.GetCurrentDirectory() + "\\Resources\\desconectado.ico";
+                }
             }
         }
     }
