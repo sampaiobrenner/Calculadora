@@ -7,17 +7,17 @@ using System.Threading;
 public class ClientAsync
 {
     // The port number for the remote device.
-    private const int port = 11000;
+    private const int Port = 11000;
+
+    // ManualResetEvent instances signal completion.
+    private readonly ManualResetEvent _connectDone = new ManualResetEvent(false);
+
+    private readonly ManualResetEvent _receiveDone = new ManualResetEvent(false);
+
+    private readonly ManualResetEvent _sendDone = new ManualResetEvent(false);
 
     // The response from the remote device.
     private string _response;
-
-    // ManualResetEvent instances signal completion.
-    private ManualResetEvent connectDone = new ManualResetEvent(false);
-
-    private ManualResetEvent receiveDone = new ManualResetEvent(false);
-
-    private ManualResetEvent sendDone = new ManualResetEvent(false);
 
     public string IniciarCliente(string mensagem)
     {
@@ -29,7 +29,7 @@ public class ClientAsync
             // remote device is "host.contoso.com".
             var ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
             var ipAddress = ipHostInfo.AddressList[0];
-            var remoteEP = new IPEndPoint(ipAddress, port);
+            var remoteEP = new IPEndPoint(ipAddress, Port);
 
             // Create a TCP/IP socket.
             var client = new Socket(ipAddress.AddressFamily,
@@ -37,18 +37,15 @@ public class ClientAsync
 
             // Connect to the remote endpoint.
             client.BeginConnect(remoteEP, ConnectCallback, client);
-            connectDone.WaitOne();
+            _connectDone.WaitOne();
 
             // Send test data to the remote device.
             Send(client, $"{mensagem}<EOF>");
-            sendDone.WaitOne();
+            _sendDone.WaitOne();
 
             // Receive the response from the remote device.
             Receive(client);
-            receiveDone.WaitOne();
-
-            // Write the response to the console.
-            Console.WriteLine("Response received : {0}", _response);
+            _receiveDone.WaitOne();
 
             // Release the socket.
             client.Shutdown(SocketShutdown.Both);
@@ -73,10 +70,8 @@ public class ClientAsync
             // Complete the connection.
             client.EndConnect(ar);
 
-            Console.WriteLine("Socket connected to {0}", client.RemoteEndPoint);
-
             // Signal that the connection has been made.
-            connectDone.Set();
+            _connectDone.Set();
         }
         catch (Exception e)
         {
@@ -126,7 +121,7 @@ public class ClientAsync
                 if (state.sb.Length > 1) _response = state.sb.ToString();
 
                 // Signal that all bytes have been received.
-                receiveDone.Set();
+                _receiveDone.Set();
             }
         }
         catch (Exception e)
@@ -156,7 +151,7 @@ public class ClientAsync
             Console.WriteLine("Sent {0} bytes to server.", bytesSent);
 
             // Signal that all bytes have been sent.
-            sendDone.Set();
+            _sendDone.Set();
         }
         catch (Exception e)
         {

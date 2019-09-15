@@ -1,4 +1,7 @@
-﻿namespace CalculadoraServer
+﻿using System;
+using System.Threading;
+
+namespace CalculadoraServer
 {
     public class CalculadoraServices
     {
@@ -10,8 +13,10 @@
             Dividir = 4
         }
 
-        public void ProcessarResultado(InformacoesParaSeremProcessadasDto dto)
+        public InformacoesParaSeremProcessadasDto ProcessarResultado(InformacoesParaSeremProcessadasDto dto)
         {
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+
             switch (dto.Operacao)
             {
                 case Operacao.Multiplicar:
@@ -34,6 +39,8 @@
                     dto.Resultado = 0;
                     break;
             }
+
+            return dto;
         }
     }
 }
