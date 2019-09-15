@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using Trabalho2;
+using Trabalho2.Annotations;
 
 namespace Trabalho
 {
@@ -9,40 +11,37 @@ namespace Trabalho
     {
         private readonly CalculadoraServices _calculadoraServices;
 
-        private decimal? _resultado;
+        private string _display;
 
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             _calculadoraServices = new CalculadoraServices();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public decimal? Resultado
+        public string Display
         {
-            get => _resultado;
+            get => _display;
             set
             {
-                _resultado = value;
-                OnPropertyChanged("Resultado");
+                _display = value;
+                OnPropertyChanged("Display");
             }
         }
 
         private decimal? Numero1 { get; set; }
         private decimal? Numero2 { get; set; }
+        private decimal Resultado { get; set; }
         private CalculadoraServices.Operacao? TipoOperacao { get; set; }
 
-        public void OnPropertyChanged(string txt)
-        {
-            PropertyChangedEventHandler handle = PropertyChanged;
-            if (handle != null)
-            {
-                handle(this, new PropertyChangedEventArgs(txt));
-            }
-        }
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        private void AtualizarDisplay(string valor) => txbDisplay.Text += valor;
+        private void AtualizarDisplay(string valor) => Display += valor;
 
         private void BtnDividir_Click(object sender, RoutedEventArgs e) => DefinirOperacao(CalculadoraServices.Operacao.Dividir);
 
@@ -82,10 +81,10 @@ namespace Trabalho
 
         private void DefinirNumero()
         {
-            var display = txbDisplay.Text.Replace(",", ".");
+            var display = Display.Replace(",", ".");
             if (string.IsNullOrEmpty(display)) return;
 
-            decimal.TryParse(txbDisplay.Text, out var numeroAtual);
+            decimal.TryParse(Display, out var numeroAtual);
 
             if (Numero2.HasValue)
             {
@@ -106,7 +105,7 @@ namespace Trabalho
             LimparDisplay();
         }
 
-        private void LimparDisplay() => txbDisplay.Clear();
+        private void LimparDisplay() => Display = string.Empty;
 
         private void ProcessarResultado()
         {
@@ -115,9 +114,13 @@ namespace Trabalho
             var numero1 = Numero1.Value;
             var numero2 = Numero2.Value;
 
-            if (TipoOperacao.HasValue) Task.Factory.StartNew(CarregarResultado);
+            if (TipoOperacao.HasValue) Task.Factory.StartNew(CarregarResultadoAsync);
 
-            void CarregarResultado() => Resultado = _calculadoraServices.ProcessarResultado(numero1, numero2, TipoOperacao.Value);
+            void CarregarResultadoAsync()
+            {
+                Resultado = _calculadoraServices.ProcessarResultado(numero1, numero2, TipoOperacao.Value);
+                Display = Resultado.ToString();
+            }
         }
     }
 }
