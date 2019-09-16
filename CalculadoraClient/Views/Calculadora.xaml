@@ -18,10 +18,12 @@
                     <Setter Property="Margin" Value="5 5 5 5"/>
                     <Setter Property="Padding" Value="5 5 20 5"/>
                     <Setter Property="TextAlignment" Value="Right"/>
-
+                    <Setter Property="FontFamily" Value="Open Sans"></Setter>
                 </Style>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Margin" Value="5 5 5 5"/>
+                    <Setter Property="Foreground" Value="DimGray" />
+                    <Setter Property="FontFamily" Value="Open Sans"></Setter>
                 </Style>
             </Grid.Resources>
 
@@ -43,10 +45,11 @@
 
             </Grid.RowDefinitions>
 
-            <TextBox Grid.Row="1" Grid.ColumnSpan="5" Text="{Binding Display, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox Grid.Row="1" Grid.ColumnSpan="5" Text="{Binding Display, UpdateSourceTrigger=PropertyChanged}" BorderThickness="4">
                 <TextBox.IsReadOnly>true</TextBox.IsReadOnly>
                 <TextBox.FontFamily>Open Sans</TextBox.FontFamily>
                 <TextBox.FontSize>40</TextBox.FontSize>
+                <TextBox.Foreground>Gray</TextBox.Foreground>
             </TextBox>
 
             <Button Grid.Row="2" Grid.Column="1" FontSize="16" FontFamily="Open Sans" Click="BtnNumero1_Click">_1</Button>
@@ -72,7 +75,7 @@
             <StackPanel Grid.Row="6" Grid.ColumnSpan="4" VerticalAlignment="Bottom">
                 <StackPanel Orientation="Horizontal" Margin="8 8">
                     <Image Source="{Binding DisplayedImagePath, UpdateSourceTrigger=PropertyChanged}" Height="12" Width="12"></Image>
-                    <Label Content="{Binding StatusConexao, UpdateSourceTrigger=PropertyChanged}"></Label>
+                    <Label Content="{Binding StatusConexao, UpdateSourceTrigger=PropertyChanged}" Foreground="DimGray" FontSize="14" FontFamily="Open Sans"></Label>
                 </StackPanel>
             </StackPanel>
         

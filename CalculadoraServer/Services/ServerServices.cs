@@ -124,15 +124,15 @@ namespace CalculadoraServer.Services
 
                 // Resposta a ser enviada ao cliente
                 Console.WriteLine();
-                Console.WriteLine(" Resposta enviada ao cliente:                                                        ");
-                Console.WriteLine(" ------------------------------------------------------------------------------------");
-                Console.WriteLine($" Numero 1:           {informacoesParaSeremProcessadasDto.Numero1}                   ");
-                Console.WriteLine($" Numero 2:           {informacoesParaSeremProcessadasDto.Numero2}                   ");
-                Console.WriteLine($" Tipo de operação:   {informacoesParaSeremProcessadasDto.Operacao.ToString()}       ");
-                Console.WriteLine($" Resultado:          {informacoesParaSeremProcessadasDto.Resultado}                 ");
-                Console.WriteLine(" ------------------------------------------------------------------------------------");
+                Console.WriteLine(" Resposta enviada ao cliente:                                                          ");
+                Console.WriteLine(" --------------------------------------------------------------------------------------");
+                Console.WriteLine($" Numero 1:           {informacoesParaSeremProcessadasDto.Numero1.DecimalToString()}   ");
+                Console.WriteLine($" Numero 2:           {informacoesParaSeremProcessadasDto.Numero2.DecimalToString()}   ");
+                Console.WriteLine($" Tipo de operação:   {informacoesParaSeremProcessadasDto.Operacao.ToString()}         ");
+                Console.WriteLine($" Resultado:          {informacoesParaSeremProcessadasDto.Resultado.DecimalToString()} ");
+                Console.WriteLine(" --------------------------------------------------------------------------------------");
                 Console.WriteLine($" JSON: {json}");
-                Console.WriteLine(" ------------------------------------------------------------------------------------");
+                Console.WriteLine(" --------------------------------------------------------------------------------------");
 
                 // Efetua o retorno das informações ao cliente
                 Enviar(handler, json);

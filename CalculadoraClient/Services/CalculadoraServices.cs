@@ -1,7 +1,9 @@
 ﻿using Calculadora;
 using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace Trabalho2.Services
 {
@@ -28,6 +30,8 @@ namespace Trabalho2.Services
 
         public bool TestarConexaoComServidor()
         {
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+
             try
             {
                 var ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());

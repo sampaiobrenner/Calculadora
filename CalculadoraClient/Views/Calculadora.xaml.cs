@@ -122,8 +122,7 @@ namespace Trabalho2.Views
 
         private void DefinirNumero()
         {
-            var display = Display?.Replace(",", ".");
-            if (string.IsNullOrEmpty(display)) return;
+            if (string.IsNullOrEmpty(Display)) return;
 
             decimal.TryParse(Display, out var numeroAtual);
 
@@ -154,6 +153,9 @@ namespace Trabalho2.Views
             Numero2 = null;
         }
 
+        // Esta rotina é chamada cada vez que o valor da propridade
+        // for definida. Isso vai disparar um evento para notificar
+        // a WPF via data binding que algo mudou
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -172,7 +174,7 @@ namespace Trabalho2.Views
             {
                 Display = "Carregando...";
                 Resultado = _calculadoraServices.ProcessarResultado(numero1, numero2, TipoOperacao);
-                Display = $"{Resultado}".Replace(",00", "");
+                Display = Resultado.DecimalToString();
             }
         }
 
@@ -191,8 +193,8 @@ namespace Trabalho2.Views
                         : Properties.Resources.SemConexaoComOServidor;
 
                     DisplayedImagePath = ConectadoAoServidor
-                        ? Directory.GetCurrentDirectory() + "\\Resources\\conectado.ico"
-                        : Directory.GetCurrentDirectory() + "\\Resources\\desconectado.ico";
+                        ? $"{Directory.GetCurrentDirectory()}\\Resources\\conectado.ico"
+                        : $"{Directory.GetCurrentDirectory()}\\Resources\\desconectado.ico";
                 }
             }
         }
